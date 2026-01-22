@@ -1,0 +1,69 @@
+@startuml
+left to right direction
+
+package "UI Layer" {
+    class MyApp
+
+    class MyApp {
+        - sentenceVM
+        + build(context)
+    }
+
+
+    class SentenceVM {
+        - _sentenceRepository: ISentenceRepository
+        - _current: Sentence
+        - _history: List<Sentence>
+        - _favorites: List<Sentence>
+        + next()
+        + toggleFavorite()
+        + toggleCurrentFavorite()
+        + isFavorite()
+        + favorites
+        + history
+        + current
+    }
+
+}
+
+package "Data Layer" {
+
+    interface ISentenceRepository {
+        + {abstract} history: List<Sentence>
+        + {abstract} favorites: List<Sentence>
+        + {abstract} current: Sentence
+        + {abstract} getNext(): Sentence
+        + {abstract} toggleFavorite(Sentence)
+        + {abstract} isFavorite(Sentence): bool
+    }
+
+    class SentenceRepository {
+        - _sentenceService: ISentenceService
+        - _favorites: List<Sentence>
+        - _history: List<Sentence>
+        - _current: Sentence
+        + getNext(): Sentence
+        + toggleFavorite(Sentence)
+        + favorites: List<Sentence>
+        + history: List<Sentence>
+        + current: Sentence
+        + isFavorite(Sentence): bool
+    }
+
+    interface ISentenceService {
+        + {abstract} getNext(): Sentence
+    }
+
+    class SentenceService {
+        + getNext()
+    }
+
+}
+
+MyApp ..> SentenceVM : <<uses>>
+SentenceVM --> ISentenceRepository : <<depends on>>
+SentenceRepository ..|> ISentenceRepository : <<implements>>
+SentenceRepository --> ISentenceService : <<depends on>>
+SentenceService ..|> ISentenceService : <<implements>>
+
+@enduml

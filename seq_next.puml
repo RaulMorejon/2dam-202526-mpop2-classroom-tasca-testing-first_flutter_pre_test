@@ -1,0 +1,44 @@
+@startuml
+actor User
+participant "GeneratorPage (UI)" as UI
+participant "SentenceVM (ViewModel)" as VM
+participant "SentenceRepository (Repository)" as Repo
+participant "SentenceService (Service)" as Service
+participant "API externa" as API
+
+User -> UI : Prem botó "Next"
+UI -> VM : next()
+activate VM
+note right of VM
+  - Crida getNext() al Repository
+  - Espera el Future<Sentence>
+  - Notifica listeners (notifyListeners)
+end note
+VM -> Repo : getNext()
+activate Repo
+note right of Repo
+  - Espera resposta del Service
+  - Insereix l'anterior _current a _history
+  - Actualitza _current amb el nou Sentence
+  - Retorna el nou Sentence
+end note
+Repo -> Service : getNext()
+activate Service
+note right of Service
+  - Incrementa el comptador
+  - Fa HTTP GET a l'API externa
+  - Espera la resposta
+  - Construeix un Sentence a partir del JSON
+end note
+Service -> API : HTTP GET /albums/{count}
+activate API
+API --> Service : JSON resposta
+deactivate API
+Service --> Repo : Future<Sentence>
+deactivate Service
+Repo --> VM : Future<Sentence>
+deactivate Repo
+VM --> UI : Sentence\n(notifyListeners)
+deactivate VM
+UI -> User : Mostra nova Sentence
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+actor User
+participant "GeneratorPage (UI)" as UI
+participant "SentenceVM (ViewModel)" as VM
+participant "SentenceRepository (Repository)" as Repo
+participant "SentenceService (Service)" as Service
+
+User -> UI : Prem botó "Next"
+UI -> VM : next()
+VM -> Repo : getNext()
+Repo -> Service : getNext()
+Service -> Repo : Sentence  // Sincrònic
+Repo -> VM : Sentence       // Sincrònic
+VM -> UI : Sentence         // Sincrònic
+UI -> User : Mostra nova Sentence
+@enduml

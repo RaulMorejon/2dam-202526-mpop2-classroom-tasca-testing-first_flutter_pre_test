@@ -1,0 +1,18 @@
+@startsalt
+{
+{T
++ lib
+++ main.dart
+++ data
++++ models
+++++ sentence.dart
++++ repositories
+++++ sentence_repository.dart
++++ services
+++++ sentence_service.dart
+++ presentation
++++ viewmodels
+++++ sentence_vm.dart
+}
+}
+@endsalt
