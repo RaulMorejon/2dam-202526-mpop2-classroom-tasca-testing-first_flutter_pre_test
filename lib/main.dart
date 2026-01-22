@@ -383,15 +383,14 @@ class ProfilePage extends StatelessWidget {
             : vm.profile != null
             ? Column(
                 children: [
-                  Text(
-                    'Profile Username: ${vm.profile?.username}',
-                  ),
+                  Text('Profile Username: ${vm.profile?.username}'),
                   Text('Profile Email: ${vm.profile?.email}'),
                   Text('First Name: ${vm.profile?.firstname}'),
                   Text('Last Name: ${vm.profile?.lastname}'),
                   Text('Birthdate: ${vm.profile?.birthdate}'),
                 ],
-              ): Text("Profile not loaded yet."),
+              )
+            : Text("Profile not loaded yet."),
       ],
     );
   }
