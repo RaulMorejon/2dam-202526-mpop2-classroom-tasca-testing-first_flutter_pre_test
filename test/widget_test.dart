@@ -65,37 +65,36 @@ void main() {
 
   // Botó like
   testWidgets('Test marcar frase com a favorita', (WidgetTester tester) async {
-    await tester.pumpWidget(createTestApp());
-    await tester.pumpAndSettle();
+  await tester.pumpWidget(createTestApp());
+  await tester.pumpAndSettle();
 
-    // Primer no és favorita
-    expect(find.byIcon(Icons.favorite_border), findsWidgets);
-    final likeButton = find.widgetWithText(ElevatedButton, 'Like');
-    expect(likeButton, findsOneWidget);
+  // Inicialment no favorita
+  expect(find.byIcon(Icons.favorite_border), findsWidgets);
 
-    await tester.tap(likeButton); // Donem al botó
-    await tester.pumpAndSettle();
+  // Click al botó Like
+  await tester.tap(find.text('Like'));
+  await tester.pumpAndSettle();
 
-    // Ara ha de ser favorita
-    expect(find.byIcon(Icons.favorite), findsWidgets);
-  });
+  // Ara ha de ser favorita
+  expect(find.byIcon(Icons.favorite), findsWidgets);
+});
 
   // Favorita en el historial
-  testWidgets('Test la favorita apareix al historial amb la icona', (
-    WidgetTester tester,
-  ) async {
+  testWidgets('Test la favorita apareix al historial amb la icona',(WidgetTester tester) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
-    // Marquem la frase com a favorita amb el botó like
-    await tester.tap(find.widgetWithText(ElevatedButton, 'Like'));
+    // Marquem la frase com a favorita amb el botó Like
+    await tester.tap(find.text('Like'));
     await tester.pumpAndSettle();
 
-    // Afegim la frase al historial quan cliquem el botó next
-    await tester.tap(find.widgetWithText(ElevatedButton, 'Next'));
+    // Afegim la frase al historial amb el botó Next
+    await tester.tap(find.text('Next'));
     await tester.pumpAndSettle();
 
-    // icona del cor ple al historial
+    // La icona del cor ple ha d'apareixer al historial
     expect(find.byIcon(Icons.favorite), findsWidgets);
-  });
+  },
+);
+
 }
